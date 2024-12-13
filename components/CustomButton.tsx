@@ -2,11 +2,11 @@ import { Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 
 interface customBtnsProps {
-  title: string;
-  handlePress: () => void;
-  containerStyles: string;
-  textStyles: string;
-  isLoading: boolean;
+  title?: string;
+  handlePress?: () => void;
+  containerStyles?: string;
+  textStyles?: string;
+  isLoading?: boolean;
 }
 
 const CustomButton: React.FC<customBtnsProps> = ({ title, handlePress, containerStyles, textStyles, isLoading }) => {
