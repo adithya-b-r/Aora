@@ -1,1 +1,4 @@
 (auth) - () folder makes it as route [similar to NextJs].
+
+For AppWrite Installation:
+npx expo install react-native-appwrite react-native-url-polyfill
