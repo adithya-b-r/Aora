@@ -1,5 +1,5 @@
-import { View, Text, FlatList, Image } from 'react-native'
-import React from 'react'
+import { View, Text, FlatList, Image, RefreshControl } from 'react-native'
+import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { images } from '@/constants';
@@ -8,11 +8,18 @@ import Trending from '@/components/Trending';
 import EmptyState from '@/components/EmptyState';
 
 const Home = () => {
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = async() => {
+    setRefreshing(true);
+    setRefreshing(false);
+  }
+
   return (
-    <SafeAreaView className='bg-primary'>
+    <SafeAreaView className='bg-primary h-full'>
       <FlatList
-        // data={[{ id: 1 }, { id: 2 }, { id: 3 }]}
-        data={[] as { id: number }[]}
+        data={[{ id: 1 }, { id: 2 }, { id: 3 }]}
+        // data={[] as { id: number }[]}
         keyExtractor={(item) => item?.id?.toString()}
         renderItem={({ item }) => (
           <Text className='text-3xl text-white'>{item?.id}</Text>
@@ -37,7 +44,7 @@ const Home = () => {
 
             <SearchInput placeholder='Search for a video topic' />
 
-            <View className='w-full flex-1 pt-5 pb-8'>
+            <View className='w-full flex-1 pt-5 pb-4'>
               <Text className='text-gray-100 text-lg font-pregular mb-3'>
                 Latest Videos
               </Text>
@@ -52,6 +59,7 @@ const Home = () => {
             subtitle="Be the first one to upload a video"
           />
         )}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
       />
     </SafeAreaView>
   )

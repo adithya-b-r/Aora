@@ -1,6 +1,7 @@
 import { View, Text, Image, ImageSourcePropType } from 'react-native';
 import { Tabs, Redirect } from 'expo-router';
 import { icons } from '../../constants';
+import React from 'react';
 
 interface TabIconProps {
   icon: ImageSourcePropType;
@@ -38,6 +39,7 @@ const TabsLayout = () => {
             borderTopColor: '#232533',
             height: 64,
             paddingTop: 24,
+            borderColor: "#232533" 
           }
         }}>
         <Tabs.Screen
