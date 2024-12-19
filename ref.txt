@@ -2,3 +2,5 @@
 
 For AppWrite Installation:
 npx expo install react-native-appwrite react-native-url-polyfill
+
+For Assets: https://github.com/adrianhajdin/aora/blob/main/README.md
