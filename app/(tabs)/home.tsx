@@ -6,7 +6,7 @@ import { images } from '@/constants';
 import SearchInput from '@/components/SearchInput';
 import Trending from '@/components/Trending';
 import EmptyState from '@/components/EmptyState';
-import { getAllPosts } from '@/lib/appwrite';
+import { getAllPosts, getLatestPosts } from '@/lib/appwrite';
 import { StatusBar } from 'expo-status-bar';
 import VideoCard from '@/components/VideoCard';
 
@@ -24,15 +24,20 @@ interface PostsProps {
 };
 
 const Home = () => {
-  const [data, setData] = useState<PostsProps[]>([]);
+  const [posts, setPosts] = useState<PostsProps[]>([]);
+  const [latestPosts, setLatestPosts] = useState<PostsProps[]>([]);
+
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
     setIsLoading(true);
 
     try {
-      const response = (await getAllPosts()) as unknown as PostsProps[];
-      setData(response);
+      const response1 = (await getAllPosts()) as unknown as PostsProps[];
+      setPosts(response1);
+
+      const response2 = (await getLatestPosts()) as unknown as PostsProps[];
+      setLatestPosts(response2);
     } catch (err: any) {
       Alert.alert('Error', err.message);
     } finally {
@@ -44,7 +49,7 @@ const Home = () => {
     fetchData();
   }, []);
 
-  console.log(data);
+  console.log(posts);
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -57,8 +62,8 @@ const Home = () => {
   return (
     <SafeAreaView className='bg-primary h-full'>
       <FlatList
-        data={data}
-        // data={[] as { id: number }[]}
+        data={posts}
+        // posts={[] as { id: number }[]}
         keyExtractor={(item) => item?.$id}
         renderItem={({ item }) => (
           <VideoCard video={item} />
@@ -88,7 +93,7 @@ const Home = () => {
                 Latest Videos
               </Text>
 
-              <Trending posts={[{ id: 1 }, { id: 2 }, { id: 3 }]} />
+              <Trending posts={latestPosts}/>
             </View>
           </View>
         )}

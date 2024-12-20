@@ -45,7 +45,7 @@ const VideoCard: React.FC<PostsProps> = ({ video: { id, title, thumbnail, prompt
       </View>
 
       {play ? (
-        <Text>Playing</Text>
+        <Text className='text-white'>Playing</Text>
       ) : (
         <TouchableOpacity
           activeOpacity={0.7}
