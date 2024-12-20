@@ -7,34 +7,40 @@ import SearchInput from '@/components/SearchInput';
 import Trending from '@/components/Trending';
 import EmptyState from '@/components/EmptyState';
 import { getAllPosts } from '@/lib/appwrite';
+import { StatusBar } from 'expo-status-bar';
+import VideoCard from '@/components/VideoCard';
 
-interface PostsProps{
+interface PostsProps {
+  $id: string;
   id: string;
   title: string;
   thumbnail: string;
   prompt: string;
   video: string;
-  creator: string;
-}
+  creator: {
+    username: any;
+    avatar: any;
+  };
+};
 
 const Home = () => {
   const [data, setData] = useState<PostsProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
+  const fetchData = async () => {
+    setIsLoading(true);
 
-      try {
-        const response = (await getAllPosts()) as unknown as PostsProps[];
-        setData(response);
-      } catch (err:any) {
-        Alert.alert('Error', err.message);
-      }finally{
-        setIsLoading(false);
-      }
+    try {
+      const response = (await getAllPosts()) as unknown as PostsProps[];
+      setData(response);
+    } catch (err: any) {
+      Alert.alert('Error', err.message);
+    } finally {
+      setIsLoading(false);
     }
+  }
 
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -42,19 +48,20 @@ const Home = () => {
 
   const [refreshing, setRefreshing] = useState(false);
 
-  const onRefresh = async() => {
+  const onRefresh = async () => {
     setRefreshing(true);
     setRefreshing(false);
+    fetchData();
   }
 
   return (
     <SafeAreaView className='bg-primary h-full'>
       <FlatList
-        data={[{ id: 1 }, { id: 2 }, { id: 3 }]}
+        data={data}
         // data={[] as { id: number }[]}
-        keyExtractor={(item) => item?.id?.toString()}
+        keyExtractor={(item) => item?.$id}
         renderItem={({ item }) => (
-          <Text className='text-3xl text-white'>{item?.id}</Text>
+          <VideoCard video={item} />
         )}
 
         ListHeaderComponent={() => (
@@ -81,18 +88,20 @@ const Home = () => {
                 Latest Videos
               </Text>
 
-              <Trending posts={[{ id: 1 }, { id: 2 }, { id: 3 }]}/>
+              <Trending posts={[{ id: 1 }, { id: 2 }, { id: 3 }]} />
             </View>
           </View>
         )}
         ListEmptyComponent={() => (
-          <EmptyState 
+          <EmptyState
             title="No Videos Found"
             subtitle="Be the first one to upload a video"
           />
         )}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       />
+
+      <StatusBar backgroundColor='#161622' style='light' />
     </SafeAreaView>
   )
 }
