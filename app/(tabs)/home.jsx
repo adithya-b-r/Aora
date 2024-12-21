@@ -9,50 +9,28 @@ import EmptyState from '@/components/EmptyState';
 import { getAllPosts, getLatestPosts } from '@/lib/appwrite';
 import { StatusBar } from 'expo-status-bar';
 import VideoCard from '@/components/VideoCard';
-
+import useAppwrite from '@/lib/useAppwrite';
 
 const Home = () => {
-  const [posts, setPosts] = useState([]);
-  const [latestPosts, setLatestPosts] = useState([]);
-
-  const [isLoading, setIsLoading] = useState(true);
-
-  const fetchData = async () => {
-    setIsLoading(true);
-
-    try {
-      const response1 = await getAllPosts();
-      setPosts(response1);
-
-      const response2 = await getLatestPosts();
-      setLatestPosts(response2);
-    } catch (err) {
-      Alert.alert('Error', err.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  console.log(posts);
+  const { data: posts, isLoading, refetch } = useAppwrite(getAllPosts);
+  const { data: LatestPosts } = useAppwrite(getLatestPosts);
 
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = async () => {
     setRefreshing(true);
+    await refetch();
     setRefreshing(false);
-    fetchData();
   }
+
+  // console.log(posts);
 
   return (
     <SafeAreaView className='bg-primary h-full'>
       <FlatList
         data={posts}
         // posts={[] as { id: number }[]}
-        keyExtractor={(item) => item?.$id}
+        keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
           <VideoCard video={item} />
         )}
@@ -80,10 +58,7 @@ const Home = () => {
               <Text className='text-gray-100 text-lg font-pregular mb-3'>
                 Latest Videos
               </Text>
-
-              {latestPosts.map((video) => (
-                <Trending key={video.$id} video={video} />
-              ))}
+                <Trending posts={LatestPosts ?? []}/>
             </View>
           </View>
         )}
