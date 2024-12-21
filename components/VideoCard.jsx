@@ -2,21 +2,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { icons } from '@/constants';
 
-interface PostsProps {
-  video: {
-    id: string;
-    title: string;
-    thumbnail: string;
-    prompt: string;
-    video: string;
-    creator: {
-      username: any;
-      avatar: any;
-    };
-  }
-}
-
-const VideoCard: React.FC<PostsProps> = ({ video: { id, title, thumbnail, prompt, video, creator: { username, avatar } } }) => {
+const VideoCard = ({ video: { id, title, thumbnail, prompt, video, creator: { username, avatar } } }) => {
   const [play, setPlay] = useState(false);
 
   return (

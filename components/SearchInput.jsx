@@ -3,16 +3,7 @@ import React, { useState } from 'react';
 
 import { icons } from '@/constants';
 
-interface SearchInputProps { 
-  title?: string;
-  value?: string;
-  placeholder?: string;
-  handleChangeText?: (text: string) => void;
-  otherStyles?: string;
-  [key: string]: any;
-}
-
-const SearchInput: React.FC<SearchInputProps> = ({ title, value, placeholder, handleChangeText, otherStyles, ...props }) => {
+const SearchInput = ({ title, value, placeholder, handleChangeText, otherStyles, ...props }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (

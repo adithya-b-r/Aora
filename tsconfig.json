@@ -14,5 +14,5 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "nativewind-env.d.ts"
-, "lib/appwrite.js"  ]
+, "lib/appwrite.js", "components/Trending.jsx", "components/SearchInput.jsx", "components/FormField.jsx", "components/EmptyState.jsx", "components/CustomButton.jsx", "components/VideoCard.jsx", "app/_layout.jsx", "app/index.jsx", "app/(tabs)/profile.jsx", "app/(tabs)/create.jsx", "app/(tabs)/home.jsx", "app/(tabs)/bookmark.jsx", "app/(tabs)/_layout.jsx", "app/(auth)/_layout.jsx", "app/(auth)/sign-in.jsx", "app/(auth)/sign-up.jsx"  ]
 }

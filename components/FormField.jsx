@@ -3,16 +3,7 @@ import React, { useState } from 'react';
 
 import { icons } from '@/constants';
 
-interface FormFieldProps {
-  title?: string;
-  value?: string;
-  placeholder?: string;
-  handleChangeText?: (text: string) => void;
-  otherStyles?: string;
-  [key: string]: any;
-}
-
-const FormField: React.FC<FormFieldProps> = ({ title, value, placeholder, handleChangeText, otherStyles, ...props }) => {
+const FormField = ({ title, value, placeholder, handleChangeText, otherStyles, ...props }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (

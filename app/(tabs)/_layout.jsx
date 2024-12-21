@@ -3,14 +3,9 @@ import { Tabs, Redirect } from 'expo-router';
 import { icons } from '../../constants';
 import React from 'react';
 
-interface TabIconProps {
-  icon: ImageSourcePropType;
-  color: string;
-  name: string;
-  focused: boolean;
-}
 
-const TabIcon: React.FC<TabIconProps> = ({ icon, color, name, focused }) => {
+
+const TabIcon = ({ icon, color, name, focused }) => {
   return (
     <View className='flex items-center justify-center gap-2'>
       <Image

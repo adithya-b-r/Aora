@@ -10,22 +10,10 @@ import { getAllPosts, getLatestPosts } from '@/lib/appwrite';
 import { StatusBar } from 'expo-status-bar';
 import VideoCard from '@/components/VideoCard';
 
-interface PostsProps {
-  $id: string;
-  id: string;
-  title: string;
-  thumbnail: string;
-  prompt: string;
-  video: string;
-  creator: {
-    username: any;
-    avatar: any;
-  };
-};
 
 const Home = () => {
-  const [posts, setPosts] = useState<PostsProps[]>([]);
-  const [latestPosts, setLatestPosts] = useState<PostsProps[]>([]);
+  const [posts, setPosts] = useState([]);
+  const [latestPosts, setLatestPosts] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -33,12 +21,12 @@ const Home = () => {
     setIsLoading(true);
 
     try {
-      const response1 = (await getAllPosts()) as unknown as PostsProps[];
+      const response1 = await getAllPosts();
       setPosts(response1);
 
-      const response2 = (await getLatestPosts()) as unknown as PostsProps[];
+      const response2 = await getLatestPosts();
       setLatestPosts(response2);
-    } catch (err: any) {
+    } catch (err) {
       Alert.alert('Error', err.message);
     } finally {
       setIsLoading(false);
@@ -93,7 +81,9 @@ const Home = () => {
                 Latest Videos
               </Text>
 
-              <Trending posts={latestPosts}/>
+              {latestPosts.map((video) => (
+                <Trending key={video.$id} video={video} />
+              ))}
             </View>
           </View>
         )}

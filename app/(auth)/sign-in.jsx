@@ -6,12 +6,10 @@ import { images } from '../../constants';
 import FormField from '@/components/FormField';
 import { useState } from 'react';
 import CustomButton from '@/components/CustomButton';
+import { signIn } from '@/lib/appwrite';
 
-import { createUser } from '../../lib/appwrite';
-
-const SignUp = () => {
+const SignIn = () => {
   const [form, setForm] = useState({
-    username: '',
     email: '',
     password: ''
   });
@@ -19,17 +17,17 @@ const SignUp = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const submit = async () => {
-    if (!form.username || !form.email || !form.password) {
+    if (!form.email || !form.password) {
       Alert.alert('Error', 'Please fill in all the fields')
     }
 
     setIsSubmitting(true);
 
     try {
-      const result = await createUser(form.email, form.password, form.username);
+      await signIn(form.email, form.password);
 
       router.replace('/home');
-    } catch (error: any) {
+    } catch (error) {
       Alert.alert("Error", error.message);
     } finally {
       setIsSubmitting(false);
@@ -46,40 +44,34 @@ const SignUp = () => {
             className='w-[115px] h-[35px]'
           />
 
-          <Text className='text-2xl text-white font-psemibold mt-10'>Sign up to Aora</Text>
-
-          <FormField
-            title="Username"
-            value={form.username}
-            handleChangeText={(e: any) => setForm({ ...form, username: e })}
-            otherStyles="mt-10"
-          />
+          <Text className='text-2xl text-white font-psemibold mt-10'>Log in to Aora</Text>
 
           <FormField
             title="Email"
             value={form.email}
-            handleChangeText={(e: any) => setForm({ ...form, email: e })}
-            otherStyles="mt-7"
+            handleChangeText={(e) => setForm({ ...form, email: e })}
+            otherStyles="mt-10"
             keyboardType="email-address"
           />
 
           <FormField
             title="Password"
             value={form.password}
-            handleChangeText={(e: any) => setForm({ ...form, password: e })}
+            handleChangeText={(e) => setForm({ ...form, password: e })}
             otherStyles="mt-7"
+            keyboardType=""
           />
 
           <CustomButton
-            title="Sign Up"
+            title="Sign In"
             containerStyles="mt-7"
             handlePress={submit}
             isLoading={isSubmitting}
           />
 
           <View className='flex-row justify-center pt-5 gap-2'>
-            <Text className='text-gray-100 font-pregular'>Already have an account?</Text>
-            <Link href={"/sign-in"} className='text- font-psemibold text-secondary'>Sign In</Link>
+            <Text className='text-gray-100 font-pregular'>Don't have an account?</Text>
+            <Link href={"/sign-up"} className='text- font-psemibold text-secondary'>Sign Up</Link>
           </View>
         </View>
       </ScrollView>
@@ -87,4 +79,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export default SignIn

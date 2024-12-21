@@ -5,12 +5,7 @@ import { images } from '@/constants';
 import CustomButton from './CustomButton';
 import { router } from 'expo-router';
 
-interface EmptyStateProps{
-  title: string;
-  subtitle: string;
-}
-
-const EmptyState: React.FC<EmptyStateProps> = ({title, subtitle}) => {
+const EmptyState = ({title, subtitle}) => {
   return (
     <View className='justify-center items-center px-4'>
       <Image 
