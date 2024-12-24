@@ -36,9 +36,20 @@ const TrendingItem = ({ activeId, item }) => {
             resizeMode={ResizeMode.COVER}
             shouldPlay
             isLooping
-            orientation="landscape"
             useNativeControls
             onError={handleVideoError}
+
+            onPlaybackStatusUpdate={(status) => {
+              // console.log("Playing: ",status.uri);
+              if(status.error){
+                  Alert.alert("Error","An error occurred when playing the video")
+                  setPlay(false)
+              }
+              if (status.didJustFinish) {
+                setPlay(false);
+                console.log("Video Finished");
+              }
+            }}
           />
         </View>
       ) : (
