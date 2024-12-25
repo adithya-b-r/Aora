@@ -17,16 +17,12 @@ const zoomOut = {
 const TrendingItem = ({ activeId, item }) => {
   const [play, setPlay] = useState(false);
 
-  const handleVideoError = useCallback((error) => {
-    console.error('Video Error:', error);
-    setPlay(false);
-  }, []);
-
   return (
     <Animatable.View
       className="mr-5"
       animation={activeId === item.$id ? zoomIn : zoomOut}
       duration={500}
+      easing="ease-in"
     >
       {play ? (
         <View className="w-52 h-72 rounded-[35px] mt-3 overflow-hidden">
@@ -35,15 +31,14 @@ const TrendingItem = ({ activeId, item }) => {
             style={{ width: '100%', height: '100%' }}
             resizeMode={ResizeMode.COVER}
             shouldPlay
-            isLooping
+            // isLooping
             useNativeControls
-            onError={handleVideoError}
+            onError={() => setPlay(false)}
 
             onPlaybackStatusUpdate={(status) => {
-              // console.log("Playing: ",status.uri);
-              if(status.error){
-                  Alert.alert("Error","An error occurred when playing the video")
-                  setPlay(false)
+              if (status.error) {
+                Alert.alert("Error", "An error occurred when playing the video")
+                setPlay(false)
               }
               if (status.didJustFinish) {
                 setPlay(false);
@@ -78,12 +73,11 @@ const TrendingItem = ({ activeId, item }) => {
 };
 
 const Trending = ({ posts = [] }) => {
-  const [activeId, setActiveId] = useState(posts[0]?.$id);
-  const count = 0;
+  const [activeId, setActiveId] = useState(posts[1]);
 
   const handleViewableItemsChanged = useCallback(({ viewableItems }) => {
-    if (viewableItems?.[0]?.item) {
-      setActiveId(viewableItems[0].item.$id);
+    if (viewableItems.length > 0) {
+      setActiveId(viewableItems[0].key);
     }
   }, []);
 
@@ -103,11 +97,11 @@ const Trending = ({ posts = [] }) => {
         itemVisiblePercentThreshold: 70,
       }}
 
-      contentOffset={{ x: 170}}
+      contentOffset={{ x: 170 }}
 
       horizontal
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{ paddingHorizontal: 16 }}
+      contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 4 }}
       initialScrollIndex={0}
     />
   );

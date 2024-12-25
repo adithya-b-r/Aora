@@ -1,9 +1,13 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
+import { Video, ResizeMode } from 'expo-av';
+import { ScreenOrientation } from 'expo';
+
 import { icons } from '@/constants';
 
 const VideoCard = ({ video: { id, title, thumbnail, prompt, video, creator: { username, avatar } } }) => {
   const [play, setPlay] = useState(false);
+  const [orientationIsLandscape, setOrientationIsLandscape] = useState(false);
 
   return (
     <View className='flex-col items-center px-4 mb-14'>
@@ -31,7 +35,37 @@ const VideoCard = ({ video: { id, title, thumbnail, prompt, video, creator: { us
       </View>
 
       {play ? (
-        <Text className='text-white'>Playing</Text>
+        <View className="w-full h-60 rounded-xl mt-3 overflow-hidden">
+          <Video
+            source={{ uri: video }}
+            style={{ width: '100%', height: '100%' }}
+            resizeMode={ResizeMode.CONTAIN}
+            shouldPlay
+            // isLooping
+            useNativeControls
+            onError={() => setPlay(false)}
+
+            onFullscreenUpdate={async () => {
+              await ScreenOrientation.lockAsync(
+                orientationIsLandscape ? ScreenOrientation.OrientationLock.PORTRAIT :
+                  ScreenOrientation.OrientationLock.LANDSCAPE_LEFT,
+              );
+              setOrientationIsLandscape(!orientationIsLandscape);
+            }}
+
+            onPlaybackStatusUpdate={(status) => {
+              if (status.error) {
+                Alert.alert("Error", "An error occurred when playing the video")
+                setPlay(false)
+              }
+              if (status.didJustFinish) {
+                setPlay(false);
+                console.log("Video Completed Playing.");
+              }
+            }
+            }
+          />
+        </View>
       ) : (
         <TouchableOpacity
           activeOpacity={0.7}
