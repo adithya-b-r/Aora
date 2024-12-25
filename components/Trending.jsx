@@ -1,4 +1,4 @@
-import { FlatList, TouchableOpacity, ImageBackground, Image, View } from 'react-native';
+import { FlatList, TouchableOpacity, ImageBackground, Image, View, Alert } from 'react-native';
 import React, { useState, useCallback } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { Video, ResizeMode } from 'expo-av';
@@ -31,7 +31,7 @@ const TrendingItem = ({ activeId, item }) => {
       {play ? (
         <View className="w-52 h-72 rounded-[35px] mt-3 overflow-hidden">
           <Video
-            source={{ uri: "https://www.w3schools.com/html/mov_bbb.mp4" }}
+            source={{ uri: item.video }}
             style={{ width: '100%', height: '100%' }}
             resizeMode={ResizeMode.COVER}
             shouldPlay
@@ -47,7 +47,7 @@ const TrendingItem = ({ activeId, item }) => {
               }
               if (status.didJustFinish) {
                 setPlay(false);
-                console.log("Video Finished");
+                console.log("Video Completed Playing.");
               }
             }}
           />
@@ -79,6 +79,7 @@ const TrendingItem = ({ activeId, item }) => {
 
 const Trending = ({ posts = [] }) => {
   const [activeId, setActiveId] = useState(posts[0]?.$id);
+  const count = 0;
 
   const handleViewableItemsChanged = useCallback(({ viewableItems }) => {
     if (viewableItems?.[0]?.item) {
