@@ -3,10 +3,11 @@ import React, { useState } from 'react';
 
 import { icons } from '../constants';
 import { router, usePathname } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 
-const SearchInput = ({ title, value, placeholder, handleChangeText, otherStyles, ...props }) => {
+const SearchInput = ({ placeholder, initialQuery}) => {
   const pathname = usePathname();
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(initialQuery || '');
 
   return (
     <View className='border-2 border-black-200 h-16 px-4 bg-black-100 rounded-2xl focus:border-secondary items-center flex-row space-x-4'>
@@ -37,6 +38,8 @@ const SearchInput = ({ title, value, placeholder, handleChangeText, otherStyles,
           resizeMode='contain'
         />
       </TouchableOpacity>
+      
+      <StatusBar backgroundColor='#161622' style='light' />
     </View>
   )
 }
