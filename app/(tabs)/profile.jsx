@@ -16,7 +16,7 @@ const Profile = () => {
   const { data: posts } = useAppwrite(() => getUserPosts(user.$id));
 
   const logout = () => {
-
+ 
   }
 
   return (
