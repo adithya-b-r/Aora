@@ -12,34 +12,34 @@ const GlobalProvider = ({ children }) => {
   useEffect(() => {
     getCurrentUser()
       .then((res) => {
-        if (res) {
-          setIsLoggedIn(true);
-          setUser(res);
-        } else {
-          setIsLoggedIn(false);
-        }
-      })
-      .catch((err) => {
-        console.log("Error: " + err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
+      if (res) {
+        setIsLoggedIn(true);
+        setUser(res);
+      } else {
+        setIsLoggedIn(false);
+      }
+    })
+    .catch((err) => {
+      console.log("Error: " + err);
+    })
+    .finally(() => {
+      setIsLoading(false);
+    });
+}, []);
 
-  return (
-    <GlobalContext.Provider
-      value={{
-        isLoggedIn,
-        setIsLoggedIn,
-        user,
-        setUser,
-        isLoading
-      }}
-    >
-      {children}
-    </GlobalContext.Provider>
-  );
+return (
+  <GlobalContext.Provider
+    value={{
+      isLoggedIn,
+      setIsLoggedIn,
+      user,
+      setUser,
+      isLoading
+    }}
+  >
+    {children}
+  </GlobalContext.Provider>
+);
 }
 
 export default GlobalProvider;
