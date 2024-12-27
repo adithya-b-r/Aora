@@ -3,10 +3,10 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Link, router } from 'expo-router';
 
 import { images } from '../../constants';
-import FormField from '@/components/FormField';
+import FormField from '../../components/FormField';
 import { useState } from 'react';
-import CustomButton from '@/components/CustomButton';
-import { signIn } from '@/lib/appwrite';
+import CustomButton from '../../components/CustomButton';
+import { signIn } from '../../lib/appwrite';
 
 const SignIn = () => {
   const [form, setForm] = useState({

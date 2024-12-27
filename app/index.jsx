@@ -4,9 +4,9 @@ import { StatusBar } from 'expo-status-bar';
 import { Redirect, router } from 'expo-router';
 import { images } from '../constants';;
 import { SafeAreaView } from 'react-native-safe-area-context';
-import CustomButton from '@/components/CustomButton';
+import CustomButton from '../components/CustomButton';
 
-import { useGlobalContext } from '@/context/GlobalProvider';
+import { useGlobalContext } from '../context/GlobalProvider';
 
 const index = () => {
   const { isLoading, isLoggedIn } = useGlobalContext();
