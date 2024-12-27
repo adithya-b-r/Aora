@@ -9,6 +9,7 @@ import { StatusBar } from 'expo-status-bar';
 import VideoCard from '../../components/VideoCard';
 import useAppwrite from '../../lib/useAppwrite';
 import { useGlobalContext } from '../../context/GlobalProvider';
+import InfoBox from '../../components/InfoBox';
 
 const Profile = () => {
   const { user, setUser, setIsLoggedIn } = useGlobalContext();
@@ -48,7 +49,27 @@ const Profile = () => {
               />
             </View>
 
-            
+            <InfoBox
+              title={user?.username}
+              containerStyles="mt-5"
+              titleStyles="text-lg"
+            />
+
+            <View className="mt-5 flex-row">
+              <InfoBox
+                title={posts?.length || 0}
+                subtitle="Posts"
+                containerStyles="mr-10"
+                titleStyles="text-xl"
+              />
+
+              <InfoBox
+                title="1.2k"
+                subtitle="Followers"
+                titleStyles="text-xl"
+              />
+            </View>
+
           </View>
         )}
         ListEmptyComponent={() => (
