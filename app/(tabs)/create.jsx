@@ -10,7 +10,7 @@ import { router } from 'expo-router';
 import FormField from '../../components/FormField';
 import { icons } from '../../constants';
 import CustomButton from '../../components/CustomButton';
-import { createVideo } from '../../lib/appwrite';
+import { createVideoPost } from '../../lib/appwrite';
 import { useGlobalContext } from '../../context/GlobalProvider';
 
 const Create = () => {
@@ -37,7 +37,7 @@ const Create = () => {
       } else {
         setForm({ ...form, video: result.assets[0] });
       }
-    } 
+    }
     // else {
     //   setTimeout(() => {
     //     Alert.alert('Document picked', JSON.stringify(result, null, 2));
@@ -53,12 +53,12 @@ const Create = () => {
     setUploading(true);
 
     try {
-      await createVideo({ ...form, userId: user.$id });
+      await createVideoPost({ ...form, userId: user.$id });
 
       Alert.alert('Success', 'Post uploaded successfully');
       router.push('/home');
     } catch (error) {
-      Alert.alert('Erorr', error)
+      Alert.alert('Error', error.message || JSON.stringify(error));
     } finally {
       setForm({
         title: '',
@@ -98,7 +98,7 @@ const Create = () => {
                 }}
                 // useNativeControls
                 resizeMode={ResizeMode.COVER}
-                // isLooping
+              // isLooping
               />
             ) : (
               <View className="w-full h-40 px-4 bg-black-100 rounded-2xl justify-center items-center">
