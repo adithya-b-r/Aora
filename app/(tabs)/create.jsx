@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 
 import { ResizeMode, Video } from 'expo-av';
 import * as DocumentPicker from 'expo-document-picker';
+import { router } from 'expo-router';
 
 import FormField from '../../components/FormField';
 import { icons } from '../../constants';
@@ -41,7 +42,25 @@ const Create = () => {
   }
 
   const submit = () => {
-    
+    if (!form.prompt || !form.title || !form.video || !form.thumbnail) {
+      return Alert.alert('Error', 'Please fill in all the fields');
+    }
+
+    setUploading(true);
+
+    try {
+      Alert.alert('Success', 'Post uploaded successfully');
+    } catch (error) {
+      Alert.alert('Erorr', error)
+    } finally {
+      setForm({
+        title: '',
+        video: null,
+        thumbnail: null,
+        prompt: ''
+      })
+      setUploading(false);
+    }
   }
 
   return (
