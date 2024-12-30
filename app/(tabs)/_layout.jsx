@@ -1,5 +1,5 @@
-import { View, Text, Image, ImageSourcePropType, StatusBar } from 'react-native';
-import { Tabs, Redirect } from 'expo-router';
+import { View, Text, Image } from 'react-native';
+import { Tabs } from 'expo-router';
 import { icons } from '../../constants';
 import React from 'react';
 
@@ -53,7 +53,7 @@ const TabsLayout = () => {
           }}
         />
 
-        <Tabs.Screen
+        {/* <Tabs.Screen
           name="bookmark"
           options={{
             title: "Bookmark",
@@ -67,7 +67,7 @@ const TabsLayout = () => {
               />
             )
           }}
-        />
+        /> */}
 
         <Tabs.Screen
           name="create"
