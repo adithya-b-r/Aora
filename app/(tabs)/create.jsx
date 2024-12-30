@@ -10,8 +10,11 @@ import { router } from 'expo-router';
 import FormField from '../../components/FormField';
 import { icons } from '../../constants';
 import CustomButton from '../../components/CustomButton';
+import { createVideo } from '../../lib/appwrite';
+import { useGlobalContext } from '../../context/GlobalProvider';
 
 const Create = () => {
+  const { user } = useGlobalContext();
   const [uploading, setUploading] = useState(false);
 
   const [form, setForm] = useState({
@@ -34,14 +37,15 @@ const Create = () => {
       } else {
         setForm({ ...form, video: result.assets[0] });
       }
-    } else {
-      setTimeout(() => {
-        Alert.alert('Document picked', JSON.stringify(result, null, 2));
-      }, 100)
-    }
+    } 
+    // else {
+    //   setTimeout(() => {
+    //     Alert.alert('Document picked', JSON.stringify(result, null, 2));
+    //   }, 100)
+    // }
   }
 
-  const submit = () => {
+  const submit = async () => {
     if (!form.prompt || !form.title || !form.video || !form.thumbnail) {
       return Alert.alert('Error', 'Please fill in all the fields');
     }
@@ -49,7 +53,10 @@ const Create = () => {
     setUploading(true);
 
     try {
+      await createVideo({ ...form, userId: user.$id });
+
       Alert.alert('Success', 'Post uploaded successfully');
+      router.push('/home');
     } catch (error) {
       Alert.alert('Erorr', error)
     } finally {
@@ -89,9 +96,9 @@ const Create = () => {
                   height: 256, // equivalent to h-64 in Tailwind
                   borderRadius: 16, // equivalent to rounded-2xl
                 }}
-                useNativeControls
+                // useNativeControls
                 resizeMode={ResizeMode.COVER}
-                isLooping
+                // isLooping
               />
             ) : (
               <View className="w-full h-40 px-4 bg-black-100 rounded-2xl justify-center items-center">
