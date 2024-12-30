@@ -1,9 +1,10 @@
-import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Image, Alert } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 
 import { ResizeMode, Video } from 'expo-av';
+import * as DocumentPicker from 'expo-document-picker';
 
 import FormField from '../../components/FormField';
 import { icons } from '../../constants';
@@ -19,10 +20,28 @@ const Create = () => {
     prompt: ''
   });
 
-  co
+  const openPicker = async (selectType) => {
+    const result = await DocumentPicker.getDocumentAsync({
+      type: selectType === 'image'
+        ? ['image/png', 'image/jpg', 'image/jpeg']
+        : ['video/mp4', 'video/gif']
+    });
+
+    if (!result.canceled) {
+      if (selectType === 'image') {
+        setForm({ ...form, thumbnail: result.assets[0] });
+      } else {
+        setForm({ ...form, video: result.assets[0] });
+      }
+    } else {
+      setTimeout(() => {
+        Alert.alert('Document picked', JSON.stringify(result, null, 2));
+      }, 100)
+    }
+  }
 
   const submit = () => {
-
+    
   }
 
   return (
@@ -42,11 +61,15 @@ const Create = () => {
         <View className="mt-7 space-y-2">
           <Text className="text-base text-gray-100 font-psemibold">Upload Video</Text>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => openPicker('video')}>
             {form.video ? (
               <Video
                 source={{ uri: form.video.uri }}
-                className="w-full h-64 rounded-2xl"
+                style={{
+                  width: '100%',
+                  height: 256, // equivalent to h-64 in Tailwind
+                  borderRadius: 16, // equivalent to rounded-2xl
+                }}
                 useNativeControls
                 resizeMode={ResizeMode.COVER}
                 isLooping
@@ -68,7 +91,7 @@ const Create = () => {
         <View className="mt-7 space-y-2">
           <Text className="text-base text-gray-100 font-psemibold">Thumbnail Image</Text>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => openPicker('image')}>
             {form.thumbnail ? (
               <Image
                 source={{ uri: form.thumbnail.uri }}
