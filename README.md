@@ -37,7 +37,7 @@ The application leverages Appwrite as a Backend-as-a-Service (BaaS) to handle au
 ### 👤 User Profiles
 - **Personal Profile View**: Display user information and statistics
 - **Post Count**: Track total number of videos uploaded
-- **Follower Count**: View follower statistics (1.2k display)
+- **Follower Count**: View follower statistics
 - **User Gallery**: Browse all videos created by a specific user
 - **Profile Customization**: Avatar and username display
 
@@ -161,7 +161,7 @@ Aora/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/adithya-b-r/Aora.git
+   git clone <repository-url>
    cd Aora
    ```
 
@@ -170,9 +170,9 @@ Aora/
    npm install
    ```
 
-3. **Configure Appwrite** (Optional if using your own backend)
+3. **Configure Appwrite**
    
-   Update the Appwrite configuration in `lib/appwrite.js`:
+   The app requires Appwrite backend configuration. Update the Appwrite configuration in `lib/appwrite.js`:
    ```javascript
    export const appwriteConfig = {
      endpoint: "YOUR_APPWRITE_ENDPOINT",
